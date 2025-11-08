@@ -2,20 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('clone') {
+        stage('codescan') {
             steps {
-                sh 'echo "cloning repo"'
+                sh 'trivy --version'
+                
             }
         }
-        stage('test') {
+        stage('dockerversion') {
             steps {
-                sh 'echo "test"'
+                sh 'docker -v'
             }
         }
-        stage('File-create') {
+        stage('checkcontainer') {
             steps {
-                sh 'echo "create a file"'
-                sh 'touch test-file-$BUILD_ID'
+                sh 'docker ps -a'
+                
             }
         }
     }
