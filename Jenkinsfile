@@ -15,17 +15,12 @@ pipeline {
 
         stage('dockerImageBuild') {
             steps {
-                sh '''
-                aws ecr get-login-password --region $AWS_REGION | \
-                docker login --username AWS \
-                --password-stdin $ECR_REPO
-                '''
-                sh 'docker build -t jenkins-repo:latest .'
-                sh 'docker build -t imageversion:latest .'
-                sh 'docker tag jenkins-repo:latest $ECR_REPO/jenkins-repo:latest'
-                sh 'docker tag imageversion:latest $ECR_REPO/jenkins-repo:v.$BUILD_NUMBER'
-                sh 'docker push $ECR_REPO/jenkins-repo:latest'
-                sh 'docker push $ECR_REPO/jenkins-repo:v.$BUILD_NUMBER'
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 215925484801.dkr.ecr.us-east-1.amazonaws.com'
+                
+                
+                sh 'docker build -t jenkins-repo .'
+                sh 'docker tag jenkins-repo:latest 215925484801.dkr.ecr.us-east-1.amazonaws.com/jenkins-repo:latest'
+                sh 'docker push 215925484801.dkr.ecr.us-east-1.amazonaws.com/jenkins-repo:latest'
             }
         }
 
